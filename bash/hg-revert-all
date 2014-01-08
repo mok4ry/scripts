@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# revert all local changes to a mercurial repository
+# this includes deleting added files and reverting modified/deleted files
+
+main () {
+    hg status $(hg root) | while read line; do
+	state=${line:0:1}
+	file_name=${line:2}
+	
+	[ $state == '?' ] && ( rm $file_name )
+	[ $state == 'M' ] && ( hg revert $file_name )
+	[ $state == '!' ] && ( hg revert $file_name )
+    done
+}
+
+main "$@"

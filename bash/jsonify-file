@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# jsonify-file <ugly.json>
+#   Makes the ugly json pretty. If xclip is available, copies the pretty json
+#   to your clipboard. Otherwise outputs it to stdout.
+#
+# jsonify-file <ugly.json> <destination.json>
+#   Outputs the pretty json to the specified destination file. Prompts before
+#   overwriting anything.
+
+output_to_file () {
+    local input="Y"
+
+    if [ -f $2 ]; then
+	echo -n "Destination file $2 already exists; overwrite? (Y/N) "
+	read input
+    fi
+
+    # Support lowercase input, because no one wants to reach for the shift key.
+    # Instead, I have wasted these extra keystrokes so you don't have to.
+    # I have sacrificed myself for you.
+    if [[ "$input" == "y" || "$input" == "Y" ]]; then
+	echo "$output" > $2
+    else
+	echo "Cancelled operation."
+    fi
+}
+
+output_to_clipboard () {
+    if hash xclip 2>/dev/null; then 
+        echo -n "$1" | xclip -selection c
+	echo "Copied $(echo "$1" | wc -l) lines of JSON to clipboard"
+    else
+	echo "$1"
+    fi
+}
+
+main () {
+    local output=`python -mjson.tool $1`
+    
+    [[ $# -eq 2 ]] && output_to_file "$output" $2 || output_to_clipboard "$output"
+}
+
+main "$@"
