@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# output file contents differently depending on its file extension
+# probably best to alias cat to this
+
+# alias cat="smart-cat"
+
+main () {
+    for arg; do
+	if echo "$arg" | grep --quiet ".diff$" && $has_colordiff; then
+	    # use colordiff if it's installed
+	    command -v colordiff > /dev/null 2>&1 && cat $arg | colordiff || cat $arg
+	fi
+    done
+}
+
+main "$@"
