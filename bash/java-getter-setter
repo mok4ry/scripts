@@ -3,7 +3,7 @@
 # java-getter-setter <type> <var1> [ var2, var3, ... ]
 #
 # Options:
-#   -p :-- define a prefix for the object-level variables. Defaults to "this."
+#   -p -- define a prefix for the object-level variables. Defaults to "this."
 #
 # E.g.
 # > java-getter-setter Boolean isTheRealLife isJustFantasy

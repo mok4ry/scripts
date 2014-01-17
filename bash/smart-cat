@@ -7,7 +7,7 @@
 
 main () {
     for arg; do
-	if echo "$arg" | grep --quiet ".diff$" && $has_colordiff; then
+	if echo "$arg" | grep --quiet ".diff$"; then
 	    # use colordiff if it's installed
 	    command -v colordiff > /dev/null 2>&1 && cat $arg | colordiff || cat $arg
 	fi
