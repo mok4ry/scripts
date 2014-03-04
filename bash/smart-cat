@@ -10,6 +10,9 @@ main () {
 	if echo "$arg" | grep --quiet ".diff$"; then
 	    # use colordiff if it's installed
 	    command -v colordiff > /dev/null 2>&1 && cat $arg | colordiff || cat $arg
+        else
+            # use regular cat
+            cat $arg
 	fi
     done
 }
